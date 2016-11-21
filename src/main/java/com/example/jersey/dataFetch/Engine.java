@@ -1,14 +1,11 @@
 package com.example.jersey.dataFetch;
 
 import com.example.jersey.database.DBConnector;
-import sun.jvm.hotspot.runtime.Threads;
-
-import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Shengwei_Wang on 11/18/16.
  */
+
 public class Engine extends Thread{
     String company;
     volatile boolean running;

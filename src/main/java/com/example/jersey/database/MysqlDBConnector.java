@@ -15,13 +15,16 @@ public class MysqlDBConnector implements DBConnector { //first version : single 
 
     Connection con;
     public void connect() {
+
+        System.out.println("trying connect!");
         con = null;
         String url = "jdbc:mysql://localhost/testdb";
         String user = "stockmonitor";
         String password = "test";
         try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance(); //make sure the driver has been loaded
             con = DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Logger log = Logger.getLogger(MysqlDBConnector.class.getName());
             log.log(Level.SEVERE, e.toString(), e);
         }
@@ -46,9 +49,11 @@ public class MysqlDBConnector implements DBConnector { //first version : single 
     }
 
     List<StockData> query (String sqlStatement) {
+//        connect();
         List<StockData> ans = new LinkedList<StockData>();
-        if (con == null)
+        if (con == null) {
             connect();
+        }
         try {
             Statement st = con.createStatement();
 
@@ -70,24 +75,30 @@ public class MysqlDBConnector implements DBConnector { //first version : single 
 
 
     public void insert(StockData data) {
-        String insertion = "INSERT INTO stock_price\n" +
-                "VALUES ('" + data.getSymbol() + "', '" + data.getTimeStamp() + "'," + data.getPrice() + ");";
-        submit(insertion);
+        String exec =
+                String.format("INSERT INTO stock_price VALUES ('%s', '%s', %f);",
+                        data.getSymbol(), data.getTimeStamp(), data.getPrice());
+//        System.out.println(exec);
+//        String insertion = "INSERT INTO stock_price\n" +
+//                "VALUES ('" + data.getSymbol() + "', '" + data.getTimeStamp() + "'," + data.getPrice() + ");";
+        submit(exec);
     }
     public List<StockData> getCompany(String company){
-        String selection = "SELECT * FROM stock_price\n" +
-                "WHERE name ='" + company + "';";
-//        System.out.println(selection);
-        List<StockData> ls = query(selection);
+        String exec =
+                String.format("SELECT * FROM stock_price WHERE name = '%s';", company);
+//        String selection = "SELECT * FROM stock_price\n" +
+//                "WHERE name ='" + company + "';";
+//        System.out.println(exec);
+        List<StockData> ls = query(exec);
         return ls;
     }
     public List<StockData> getCompanyList(){
-        String selection = "SELECT a.* FROM stock_price a WHERE time = ( SELECT max(time) FROM stock_price WHERE name = a.name);";
-        return query(selection);
+        String exec = "SELECT a.* FROM stock_price a WHERE time = ( SELECT max(time) FROM stock_price WHERE name = a.name);";
+        return query(exec);
     }
     public void deleteCompany(String company){
-        String deletion = "DELETE FROM stock_price\n" +
-                "WHERE name ='" + company + "';";
-        submit(deletion);
+        String exec =
+                String.format("DELETE FROM stock_price WHERE name = '%s';", company);
+        submit(exec);
     }
 }

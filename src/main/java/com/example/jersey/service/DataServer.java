@@ -12,4 +12,5 @@ public interface DataServer {
     void deleteCompany(String company);
     List<StockData> listCompanies();
     List<StockData> companyHistory(String company);
+    void cleanup();
 }

@@ -1,7 +1,6 @@
 package com.example.jersey.service;
 
 import org.junit.Test;
-import sun.jvm.hotspot.runtime.Threads;
 
 import static org.junit.Assert.*;
 

@@ -1,0 +1,4 @@
+com/example/jersey/database/MysqlDBConnectorTest.class
+com/example/jersey/dataFetch/DataFetcherTest.class
+com/example/jersey/service/YahooDataServerTest.class
+com/example/jersey/service/ServerTest.class
