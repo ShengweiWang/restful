@@ -21,15 +21,23 @@ public class YahooDataServer implements DataServer {
 //        return new YahooDataServer();
 //    }
     public void addCompany(String company) {
-        if (!map.containsKey(company)) {
-            map.put(company, new Engine(company, interval, dbConnector));
+        try {
+            System.out.println("int add companey");
+            YahooDataServer.class.newInstance();
+            if (!map.containsKey(company)) {
+                map.put(company, new Engine(company, interval, dbConnector));
+            }
+            System.out.println("YahooDataServer loaded");
+            Engine engine = map.get(company);
+            engine.setRunning(true);
+            engine.start();
+        } catch (Exception e) {
+            System.out.println("load error");
         }
-        Engine engine = map.get(company);
-        engine.setRunning(true);
-        engine.start();
     }
     public void deleteCompany(String company) {
         try {
+            YahooDataServer.class.newInstance();
             if (!map.containsKey(company))
                 return;
             Engine engine = map.get(company);
@@ -50,10 +58,15 @@ public class YahooDataServer implements DataServer {
         return companyHistory;
     }
 
-    public void cleanup() {
-        for (String key : map.keySet()) {
-            deleteCompany(key);
+    public void init() {
+        try {
+            YahooDataServer.class.newInstance();
+            for (String key : map.keySet()) {
+                deleteCompany(key);
+            }
+            dbConnector.init();
+        } catch (Exception e) {
+            System.err.println(e);
         }
-        dbConnector.init();
     }
 }

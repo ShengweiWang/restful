@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="8" failures="0" name="com.example.jersey.database.MysqlDBConnectorTest" time="8.113" errors="0" skipped="0">
+<testsuite tests="8" failures="0" name="com.example.jersey.database.MysqlDBConnectorTest" time="7.2" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/jre/lib"/>
@@ -62,12 +62,12 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testDeleteCompany" time="3.417"/>
+  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testDeleteCompany" time="3.198"/>
   <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testQuery" time="0"/>
-  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testInit" time="0.027"/>
-  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testConnect" time="0"/>
-  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testGetCompany" time="1.084"/>
-  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testInsert" time="0.289"/>
+  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testInit" time="0.047"/>
+  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testConnect" time="0.001"/>
+  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testGetCompany" time="0.875"/>
+  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testInsert" time="0.268"/>
   <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testSubmit" time="0"/>
-  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testGetCompanyList" time="3.296"/>
+  <testcase classname="com.example.jersey.database.MysqlDBConnectorTest" name="testGetCompanyList" time="2.811"/>
 </testsuite>

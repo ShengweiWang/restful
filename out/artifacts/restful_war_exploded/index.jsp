@@ -8,9 +8,35 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title></title>
   </head>
   <body>
-  $END$
+  <p>
+    <form action = "/add" method="post">
+      Company Symbol : (fb, aapl ...)<br>
+      <input type="text" name="company"><br>
+      <input type="submit" value = "Add Company">
+    </form>
+  </p>
+  <p>
+    <form action = "/delete" method="post">
+      Company Symbol : (fb, aapl ...)<br>
+      <input type="text" name="company"><br>
+      <input type="submit" value = "Delete Company">
+    </form>
+  </p>
+  <p>
+    <form action = "/history" method="get">
+      Company Symbol : (fb, aapl ...)<br>
+      <input type="text" name="company"><br>
+      <input type="submit" value = "Company History">
+    </form>
+  </p>
+
+  <p>
+    <form action = "/listcompanies" method="get">
+      <input type="submit" value = "list Companies">
+    </form>
+  </p>
   </body>
 </html>

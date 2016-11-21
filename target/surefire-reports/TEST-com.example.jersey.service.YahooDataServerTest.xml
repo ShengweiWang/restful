@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="com.example.jersey.service.YahooDataServerTest" time="10.293" errors="0" skipped="0">
+<testsuite tests="4" failures="0" name="com.example.jersey.service.YahooDataServerTest" time="10.242" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/jre/lib"/>
@@ -65,5 +65,5 @@
   <testcase classname="com.example.jersey.service.YahooDataServerTest" name="testDeleteCompany" time="0"/>
   <testcase classname="com.example.jersey.service.YahooDataServerTest" name="testCompanyHistory" time="0"/>
   <testcase classname="com.example.jersey.service.YahooDataServerTest" name="testListCompanies" time="0"/>
-  <testcase classname="com.example.jersey.service.YahooDataServerTest" name="testAddCompany" time="10.293"/>
+  <testcase classname="com.example.jersey.service.YahooDataServerTest" name="testAddCompany" time="10.242"/>
 </testsuite>

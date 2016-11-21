@@ -26,6 +26,8 @@ public class Engine extends Thread{
                 System.out.println(e);
             }
         }
+        System.out.println("ready to clean up");
+        dbConnector.deleteCompany(company);
     }
 
     public void setRunning(boolean b) {
