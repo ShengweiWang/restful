@@ -9,32 +9,48 @@ import com.example.jersey.model.StockData;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Created by Shengwei_Wang on 11/19/16.
+ * An implementation for data server
+ * provide basic CRUD operation api
+ *
+ * @author Shengwei_Wang
  */
 public class YahooDataServer implements DataServer {
-    final static long interval = 10000;
+
+    final static long interval = 10000; // interval time default setting, should be 5 * 60 * 1000 for testing just set it to 10000;
     final static DBConnector dbConnector = new MysqlDBConnector();
-    static Map<String, Engine> map = new HashMap<String, Engine>();
-//    public static DataServer ServerFactory() {
-//        return new YahooDataServer();
-//    }
+    static Map<String, Engine> map = new HashMap<String, Engine>(); // a map stores <company, Engine>
+
+    /**
+     * Start company data engine service
+     *
+     * @param company : company symbol
+     */
     public void addCompany(String company) {
         try {
-            System.out.println("int add companey");
-            YahooDataServer.class.newInstance();
+//            System.out.println("int add companey");
+            YahooDataServer.class.newInstance(); //load the server
             if (!map.containsKey(company)) {
                 map.put(company, new Engine(company, interval, dbConnector));
             }
-            System.out.println("YahooDataServer loaded");
+//            System.out.println("YahooDataServer loaded");
             Engine engine = map.get(company);
-            engine.setRunning(true);
-            engine.start();
+            engine.setRunning(true);            //set running status
+            engine.start();                     //start running
         } catch (Exception e) {
-            System.out.println("load error");
+            Logger log = Logger.getLogger(YahooDataServer.class.getName());
+            log.log(Level.SEVERE, e.toString(), e);
         }
     }
+
+    /**
+     * Shutdown company data engine service
+     *
+     * @param company : company symbol
+     */
     public void deleteCompany(String company) {
         try {
             YahooDataServer.class.newInstance();
@@ -45,19 +61,38 @@ public class YahooDataServer implements DataServer {
             engine.setRunning(false);
             engine.join();
         } catch (Exception e) {
-            System.err.println(e);
+            Logger log = Logger.getLogger(YahooDataServer.class.getName());
+            log.log(Level.SEVERE, e.toString(), e);
         }
     }
+
+    /**
+     * Retrieve information of all companies with
+     * their lasted price
+     *
+     * @return : a list of stock data
+     */
     public List<StockData> listCompanies() {
         List<StockData> companyList = dbConnector.getCompanyList();
         return companyList;
     }
 
+    /**
+     * Retrieve information of a single company
+     * with it's historical data
+     *
+     * @param company : company symbol
+     * @return : a list of stock data
+     */
     public List<StockData> companyHistory(String company) {
         List<StockData> companyHistory = dbConnector.getCompany(company);
         return companyHistory;
     }
 
+    /**
+     * shutdown all the data service
+     * and clean up the database
+     */
     public void init() {
         try {
             YahooDataServer.class.newInstance();
@@ -66,7 +101,8 @@ public class YahooDataServer implements DataServer {
             }
             dbConnector.init();
         } catch (Exception e) {
-            System.err.println(e);
+            Logger log = Logger.getLogger(YahooDataServer.class.getName());
+            log.log(Level.SEVERE, e.toString(), e);
         }
     }
 }

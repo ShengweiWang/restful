@@ -12,20 +12,20 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
- * Created by Shengwei_Wang on 11/17/16.
+ * A class provides static methods for data fetching
+ * from yahoo finance api
+ * url = http://finance.yahoo.com/d/quotes.csv?
+ *
+ * @author Shengwei_Wang
  */
 public class DataFetcher {
-
-    public static double parse (String x) {
-        double y;
-        if (Pattern.matches("N/A", x)) {
-            y = 0.00;
-        } else {
-            y = Double.parseDouble(x);
-        }
-        return y;
-    }
-
+    /**
+     * a method to get stock data from yahoo finance api
+     * using StockData model
+     *
+     * @param symbol : company symbol
+     * @return : stock data
+     */
     public static StockData getStock(String symbol) {
         String sym = symbol.toUpperCase();
         double price = 0.0;
@@ -47,7 +47,7 @@ public class DataFetcher {
         try {
 
             // Retrieve CSV File
-            URL yahoo = new URL("http://finance.yahoo.com/d/quotes.csv?s="+ symbol + "&f=l1vr2ejkghm3j3nc4s7pox");
+            URL yahoo = new URL("http://finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=l1vr2ejkghm3j3nc4s7pox");
             URLConnection connection = yahoo.openConnection();
             InputStreamReader is = new InputStreamReader(connection.getInputStream());
             BufferedReader br = new BufferedReader(is);
@@ -73,14 +73,27 @@ public class DataFetcher {
             previousClose = DataFetcher.parse(stockinfo[13]);
             open = DataFetcher.parse(stockinfo[14]);
             exchange = stockinfo[15].replace("\"", "");
-//            for (int i = 0; i < stockinfo.length; ++i) {
-//                System.out.println(stockinfo[i]);
-//            }
         } catch (IOException e) {
             Logger log = Logger.getLogger(DataFetcher.class.getName());
             log.log(Level.SEVERE, e.toString(), e);
         }
-        return new StockData(sym, price, volume, pe, eps, week52low, week52high, daylow, dayhigh, movingav50day, marketcap, name,currency, shortRatio,previousClose,open,exchange);
+        return new StockData(sym, price, volume, pe, eps, week52low, week52high, daylow, dayhigh, movingav50day, marketcap, name, currency, shortRatio, previousClose, open, exchange);
 
+    }
+
+    /**
+     * a inner parser, transform String to Double
+     *
+     * @param x : maybe String formatted double, or "N/A"
+     * @return : the parsed number
+     */
+    private static double parse(String x) {
+        double y;
+        if (Pattern.matches("N/A", x)) {
+            y = 0.00;
+        } else {
+            y = Double.parseDouble(x);
+        }
+        return y;
     }
 }

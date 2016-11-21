@@ -6,14 +6,14 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.mvc.jsp.JspMvcFeature;
 
 /**
- * Created by Shengwei_Wang on 11/20/16.
+ * A Resource Configuration Class
+ * Trying to register necessary class and package
  */
-public class RestApplication extends ResourceConfig{
+public class RestApplication extends ResourceConfig {
     public RestApplication() {
         packages("com.example.jersey");
         register(JspMvcFeature.class);
         register(JacksonJsonProvider.class);
         register(JsonProcessingFeature.class);
-//        property(JspMvcFeature.TEMPLATE_BASE_PATH, "/");
     }
 }
