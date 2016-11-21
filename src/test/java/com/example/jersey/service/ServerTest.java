@@ -24,14 +24,15 @@ import static org.junit.Assert.*;
 /**
  * Created by Shengwei_Wang on 11/20/16.
  */
-public class ServerTest extends JerseyTest{
-//    private WebTarget target;
+public class ServerTest extends JerseyTest {
     private final String uri = "http://localhost:8080";
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
         new YahooDataServer().init();
     }
+
     @Override
     protected Application configure() {
         Application ap = new ResourceConfig()
@@ -41,6 +42,7 @@ public class ServerTest extends JerseyTest{
                 .register(JsonProcessingFeature.class);
         return ap;
     }
+
     @Test
     public void testAddCompany() throws Exception {
         MultivaluedMap<String, String> formData = new MultivaluedHashMap<String, String>();
@@ -53,13 +55,15 @@ public class ServerTest extends JerseyTest{
                 .get(String.class);
         assertEquals(true, json.length() > 10);
     }
+
     @Test
     public void testListCompanies() throws Exception {
         String stockData = target("/listcompanies")
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
-        assertEquals(true, stockData != null);
+        assertNotEquals(null, stockData);
     }
+
     @Test
     public void testCompanyHistory() throws Exception {
         try {
@@ -72,6 +76,7 @@ public class ServerTest extends JerseyTest{
             System.err.println(e);
         }
     }
+
     @Test
     public void testDeleteCompany() throws Exception {
         testAddCompany();

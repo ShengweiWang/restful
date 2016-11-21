@@ -6,9 +6,7 @@ import com.example.jersey.database.DBConnector;
 import com.example.jersey.database.MysqlDBConnector;
 import com.example.jersey.model.StockData;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,10 +27,10 @@ public class YahooDataServer implements DataServer {
      *
      * @param company : company symbol
      */
-    public void addCompany(String company) {
+    public synchronized void addCompany(String company) {
         try {
 //            System.out.println("int add companey");
-            YahooDataServer.class.newInstance(); //load the server
+            YahooDataServer.class.newInstance();
             if (!map.containsKey(company)) {
                 map.put(company, new Engine(company, interval, dbConnector));
             }
@@ -51,7 +49,7 @@ public class YahooDataServer implements DataServer {
      *
      * @param company : company symbol
      */
-    public void deleteCompany(String company) {
+    public synchronized void deleteCompany(String company) {
         try {
             YahooDataServer.class.newInstance();
             if (!map.containsKey(company))
@@ -93,10 +91,11 @@ public class YahooDataServer implements DataServer {
      * shutdown all the data service
      * and clean up the database
      */
-    public void init() {
+    public synchronized void init() {
         try {
             YahooDataServer.class.newInstance();
-            for (String key : map.keySet()) {
+            Set<String> keyset = new HashSet<String>(map.keySet());
+            for (String key : keyset) {
                 deleteCompany(key);
             }
             dbConnector.init();

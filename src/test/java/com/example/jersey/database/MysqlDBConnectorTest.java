@@ -16,7 +16,6 @@ public class MysqlDBConnectorTest {
         MysqlDBConnector mysqlDBConnector = new MysqlDBConnector();
         mysqlDBConnector.connect();
         mysqlDBConnector.init();
-
     }
 
     @Test
@@ -24,7 +23,6 @@ public class MysqlDBConnectorTest {
         MysqlDBConnector mysqlDBConnector = new MysqlDBConnector();
         StockData data = DataFetcher.getStock("fb");
         mysqlDBConnector.insert(data);
-
     }
 
     @Test
@@ -36,8 +34,8 @@ public class MysqlDBConnectorTest {
         mysqlDBConnector.insert(DataFetcher.getStock("fb"));
         mysqlDBConnector.insert(DataFetcher.getStock("aapl"));
 
-        assertEquals(mysqlDBConnector.getCompany("fb").size(), 3);
-        assertEquals(mysqlDBConnector.getCompany("aapl").size(), 1);
+        assertEquals(3, mysqlDBConnector.getCompany("fb").size());
+        assertEquals(1, mysqlDBConnector.getCompany("aapl").size());
     }
 
     @Test
@@ -51,7 +49,7 @@ public class MysqlDBConnectorTest {
         mysqlDBConnector.insert(DataFetcher.getStock("fb"));
         mysqlDBConnector.insert(DataFetcher.getStock("aapl"));
 
-        assertEquals(mysqlDBConnector.getCompanyList().size(), 2);
+        assertEquals(2, mysqlDBConnector.getCompanyList().size());
     }
 
     @Test
@@ -65,24 +63,9 @@ public class MysqlDBConnectorTest {
         mysqlDBConnector.insert(DataFetcher.getStock("fb"));
         mysqlDBConnector.insert(DataFetcher.getStock("aapl"));
         mysqlDBConnector.deleteCompany("fb");
-        assertEquals(mysqlDBConnector.getCompanyList().size(), 1);
+        assertEquals(1, mysqlDBConnector.getCompanyList().size());
         mysqlDBConnector.deleteCompany("aapl");
-        assertEquals(mysqlDBConnector.getCompanyList().size(), 0);
-
-    }
-
-    @Test
-    public void testConnect() throws Exception {
-
-    }
-
-    @Test
-    public void testSubmit() throws Exception {
-
-    }
-
-    @Test
-    public void testQuery() throws Exception {
+        assertEquals(0, mysqlDBConnector.getCompanyList().size());
 
     }
 }

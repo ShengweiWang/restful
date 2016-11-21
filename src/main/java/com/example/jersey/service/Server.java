@@ -1,4 +1,4 @@
-package com.example.jersey;
+package com.example.jersey.service;
 /**
  * Created by Shengwei_Wang on 11/19/16.
  */

@@ -11,8 +11,8 @@ public class DataFetcherTest {
 
     @Test
     public void testGetStock() throws Exception {
-        assertNotEquals(DataFetcher.getStock("fb"), null);
-        assertNotEquals(DataFetcher.getStock("aapl"), null);
-        assertEquals(DataFetcher.getStock("fb").getSymbol(), "FB");
+        assertNotEquals(null, DataFetcher.getStock("fb"));
+        assertNotEquals(null, DataFetcher.getStock("aapl"));
+        assertEquals("FB", DataFetcher.getStock("fb").getSymbol());
     }
 }
