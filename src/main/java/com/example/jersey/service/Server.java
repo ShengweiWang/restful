@@ -11,6 +11,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.glassfish.jersey.server.model.Resource;
+import org.glassfish.jersey.server.mvc.Template;
 import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.json.Json;
@@ -36,19 +37,18 @@ import java.util.logging.Logger;
 @Path("/")
 public class Server extends Application {
     /**
-     * starting the page, initialized the data server
-     * run every time the server starts
+     * initialized the data server
+     * clean up the database
      *
-     * @return : viewable response, and redirect to
-     * index.jsp
+     * @return : viewable redirect to
+     * operation.jsp
      */
-    @Path("")
+    @Path("/cleanup")
     @GET
-    @Produces(MediaType.TEXT_HTML)
     public Viewable startPage() {
         DataServer dataServer = new YahooDataServer();
         dataServer.init();
-        return new Viewable("/index", null);
+        return new Viewable("/operation", null);
     }
 
     /**
@@ -59,7 +59,7 @@ public class Server extends Application {
      */
     @Path("/listcompanies")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Template(name = "/listview")
     public String listCompanies() {
         String json = "";
         try {
@@ -83,7 +83,7 @@ public class Server extends Application {
      */
     @Path("/history")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Template(name = "/historyview")
     public String companyHistory(@QueryParam("company") String company) {
         String json = "";
         try {
@@ -96,20 +96,19 @@ public class Server extends Application {
             log.log(Level.SEVERE, e.toString(), e);
         }
         return json;
-
-
+//        return new Viewable("/historyview", json);
     }
 
     /**
      * handle request for adding company
      *
      * @param company : company name
-     * @return : viewable
+     * @return : null
      */
     @Path("/add")
     @POST
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable addCompany(@FormParam("company") String company) {
+    @Template(name = "/operation")
+    public String addCompany(@FormParam("company") String company) {
 //        System.out.println("in add");
         DataServer dataServer = new YahooDataServer();
         try {
@@ -119,7 +118,7 @@ public class Server extends Application {
             log.log(Level.SEVERE, e.toString(), e);
         }
 //        System.out.println("out add");
-        return new Viewable("/index", null);
+        return null;
     }
 
 
@@ -127,13 +126,13 @@ public class Server extends Application {
      * handle request for deleting company
      *
      * @param company : company name
-     * @return : viewable to index
+     * @return : null
      */
     @Path("/delete")
     @POST
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable deleteCompany(@FormParam("company") String company) {
-//        System.out.println("in delete");
+    @Template(name = "/operation")
+    public String deleteCompany(@FormParam("company") String company) {
+        System.out.println("in delete");
         DataServer dataServer = new YahooDataServer();
         try {
             dataServer.deleteCompany(company);
@@ -141,7 +140,7 @@ public class Server extends Application {
             Logger log = Logger.getLogger(Server.class.getName());
             log.log(Level.SEVERE, e.toString(), e);
         }
-        return new Viewable("/index", null);
+        return null;
     }
 }
 
@@ -160,7 +159,7 @@ public class Server extends Application {
 //        }
 //        Map<String, String > hashmap = new HashMap<String, String>();
 //        hashmap.put("list",sb.toString());
-//        return new Viewable("/index", hashmap);
+//        return new Viewable("/operation", hashmap);
 //    }
 
 //        StringBuffer sb = new StringBuffer();

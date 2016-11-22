@@ -30,8 +30,11 @@ public class MysqlDBConnectorTest {
         MysqlDBConnector mysqlDBConnector = new MysqlDBConnector();
         mysqlDBConnector.init();
         mysqlDBConnector.insert(DataFetcher.getStock("fb"));
+        Thread.sleep(1001);
         mysqlDBConnector.insert(DataFetcher.getStock("fb"));
+        Thread.sleep(1001);
         mysqlDBConnector.insert(DataFetcher.getStock("fb"));
+        Thread.sleep(1001);
         mysqlDBConnector.insert(DataFetcher.getStock("aapl"));
 
         assertEquals(3, mysqlDBConnector.getCompany("fb").size());

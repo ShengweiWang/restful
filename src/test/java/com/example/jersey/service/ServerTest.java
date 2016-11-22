@@ -5,6 +5,7 @@ import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.glassfish.jersey.jsonp.JsonProcessingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.mvc.Viewable;
 import org.glassfish.jersey.server.mvc.jsp.JspMvcFeature;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
@@ -17,7 +18,9 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.*;
 import javax.json.Json;
 import javax.json.JsonObject;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.Assert.*;
 
@@ -36,24 +39,26 @@ public class ServerTest extends JerseyTest {
     @Override
     protected Application configure() {
         Application ap = new ResourceConfig()
-                .packages("com.example.jersey")
-                .register(JspMvcFeature.class)
-                .register(JacksonJsonProvider.class)
-                .register(JsonProcessingFeature.class);
+                .packages("com.example.jersey");
+//                .register(JspMvcFeature.class)
+//                .register(JacksonJsonProvider.class)
+//                .register(JsonProcessingFeature.class);
         return ap;
     }
 
     @Test
     public void testAddCompany() throws Exception {
+        WebTarget target = target("/history");
         MultivaluedMap<String, String> formData = new MultivaluedHashMap<String, String>();
         final String company = "fb";
         formData.add("company", company);
         target("/add").request().post(Entity.form(formData));
         Thread.sleep(10000);
-        String json = target("/history").queryParam("company", company)
-                .request(MediaType.APPLICATION_JSON)
+        Properties p = new Properties();
+        String rs = target.queryParam("company", company)
+                .request()
                 .get(String.class);
-        assertEquals(true, json.length() > 10);
+        assertEquals(true, rs.length() > 10);
     }
 
     @Test
@@ -69,7 +74,7 @@ public class ServerTest extends JerseyTest {
         try {
             final String company = "fb";
             String json = target("/history").queryParam("company", company)
-                    .request(MediaType.APPLICATION_JSON)
+                    .request()
                     .get(String.class);
             Thread.sleep(10000);
         } catch (Exception e) {
@@ -86,9 +91,9 @@ public class ServerTest extends JerseyTest {
         target("/delete").request().post(Entity.form(formData));
         Thread.sleep(10000);
         String json = target("/history").queryParam("company", company)
-                .request(MediaType.APPLICATION_JSON)
+                .request()
                 .get(String.class);
-        System.out.println(json);
+//        System.out.println(json);
         assertEquals(true, json.length() < 10);
         testListCompanies();
     }

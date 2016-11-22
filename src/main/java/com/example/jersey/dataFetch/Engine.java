@@ -43,7 +43,11 @@ public class Engine extends Thread {
         while (running) {
             try {
                 dbConnector.insert(DataFetcher.getStock(company));
-                sleep(interval);
+                try {
+                    sleep(interval);
+                } catch (InterruptedException ie) {
+
+                }
             } catch (Exception e) {
                 Logger log = Logger.getLogger(Engine.class.getName());
                 log.log(Level.SEVERE, e.toString(), e);

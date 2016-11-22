@@ -57,6 +57,7 @@ public class YahooDataServer implements DataServer {
             Engine engine = map.get(company);
             map.remove(company);
             engine.setRunning(false);
+            engine.interrupt();
             engine.join();
         } catch (Exception e) {
             Logger log = Logger.getLogger(YahooDataServer.class.getName());
